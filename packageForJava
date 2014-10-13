@@ -1,0 +1,23 @@
+# author: youkpter
+# 2014年 10月 13日 星期一 08:58:41 CST
+# 此程序的功能是将为进行包管理的java单文件程序变成包管理的
+# 此过程中自动创建文件夹和修改程序代码
+for i in `ls *.java | sed 's/\.java$//g'`
+do
+    mkdir $i
+    mv ${i}.java $i
+    cd $i
+    ed ${i}.java << End
+# 必须顶格写,因为
+#ed中的.命令必须是占单独的一行(及. 前面不能有空格)
+#也许还有其他的命令也单独占一行,此处就是.对结果有影响
+0 a
+package $i;
+
+.
+w
+q
+End
+cd ..
+done
+
